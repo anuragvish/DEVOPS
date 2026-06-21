@@ -7,7 +7,7 @@
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family:Arial,sans-serif; background:#111; color:#eee; }
-    header { background:#171717; padding:18px 20px; border-bottom:2px solid #00d4ff; }
+    header { background:#171717; padding:18px 20px; border-bottom:2px solid #00d4ff; position:sticky; top:0; z-index:100; }
     .wrap { max-width:1080px; margin:0 auto; }
     nav ul { list-style:none; display:flex; gap:18px; flex-wrap:wrap; }
     nav a { color:#eee; text-decoration:none; font-weight:600; }
@@ -15,19 +15,30 @@
     .hero { text-align:center; background:linear-gradient(135deg,#0f2027,#203a43,#2c5364); padding:80px 20px; }
     .hero h1 { font-size:3rem; margin-bottom:18px; }
     .hero p { max-width:720px; margin:0 auto 24px; color:#cfd8dc; }
-    .btn { display:inline-block; padding:12px 28px; background:#ff006e; color:#fff; border-radius:6px; text-decoration:none; }
+    .btn { display:inline-block; padding:12px 28px; background:#ff006e; color:#fff; border-radius:6px; text-decoration:none; cursor:pointer; }
+    .btn:hover { opacity:.9; }
     .grid { display:grid; gap:22px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
     .card { background:#181818; border:1px solid #2a2a2a; border-radius:14px; padding:22px; }
     .card h3 { color:#00d4ff; margin-bottom:10px; }
     .card p { color:#b0bec5; margin-bottom:12px; font-size:.95rem; }
     .small { color:#66fcf1; font-size:.92rem; }
-    .about, .contact { background:#121212; border-top:1px solid #222; }
+    .about, .contact, .features, .news { background:#121212; border-top:1px solid #222; }
     .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-top:24px; }
     .stat { background:#0e0e0e; padding:18px; border-radius:12px; }
     .stat strong { display:block; font-size:1.7rem; color:#00d4ff; }
     form { display:grid; gap:14px; max-width:520px; margin:0 auto; }
     input, textarea { width:100%; padding:14px; border:1px solid #2a2a2a; border-radius:10px; background:#141414; color:#eee; }
     input:focus, textarea:focus { outline:2px solid #00d4ff; }
+    .search-bar { max-width:520px; margin:0 auto 30px; display:flex; gap:10px; }
+    .search-bar input { flex:1; }
+    .badge { display:inline-block; padding:6px 12px; background:#00d4ff; border-radius:999px; font-size:.85rem; margin-top:6px; }
+    .features-grid { display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); }
+    .feature-card { background:#181818; border:1px solid #2a2a2a; border-radius:14px; padding:20px; }
+    .feature-card h3 { margin-bottom:10px; color:#ff006e; }
+    .feature-card p { color:#b0bec5; }
+    .news-item { background:#181818; border:1px solid #2a2a2a; border-radius:14px; padding:20px; }
+    .news-item h4 { margin-bottom:10px; color:#00d4ff; }
+    .top-button { position:fixed; right:20px; bottom:20px; padding:12px 16px; background:#00d4ff; color:#111; border:none; border-radius:10px; cursor:pointer; display:none; }
     footer { text-align:center; padding:22px 20px; border-top:2px solid #222; color:#8a8d93; }
     @media (max-width:640px) { .hero h1 { font-size:2.2rem; } nav ul { justify-content:center; } }
   </style>
@@ -37,7 +48,7 @@
     <div class="wrap">
       <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;">
         <div><strong style="font-size:1.2rem; color:#00d4ff;">GameHub</strong></div>
-        <nav><ul><li><a href="#home">Home</a></li><li><a href="#games">Games</a></li><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li></ul></nav>
+        <nav><ul><li><a href="#home">Home</a></li><li><a href="#games">Games</a></li><li><a href="#features">Features</a></li><li><a href="#contact">Contact</a></li></ul></nav>
       </div>
     </div>
   </header>
@@ -45,21 +56,85 @@
   <section class="hero" id="home">
     <div class="wrap">
       <h1>Welcome to GameHub</h1>
-      <p>Your one-stop gaming showcase for exciting action, racing, RPG, and casual adventures. Jump in, explore great titles, and stay updated with the latest game picks.</p>
-      <a class="btn" href="#games">Explore Games</a>
+      <p>Your one-stop gaming destination for the latest releases, top rated adventures, and an active community.</p>
+      <button class="btn" onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">Explore Games</button>
+      <div style="margin-top:30px; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px;">
+        <div class="stat"><strong>500+</strong>Games
+        </div>
+        <div class="stat"><strong>120+</strong>Hours of Content
+        </div>
+        <div class="stat"><strong>4.8★</strong>Player Rating
+        </div>
+      </div>
     </div>
   </section>
 
   <section id="games">
     <div class="wrap">
       <h2 style="margin-bottom:24px; color:#fff; text-align:center;">Featured Games</h2>
+      <div class="search-bar">
+        <input id="gameSearch" type="text" placeholder="Search games or genres..." oninput="filterGames()">
+        <button class="btn" onclick="filterGames()">Search</button>
+      </div>
+      <div class="grid" id="gameGrid">
+        <article class="card" data-tags="action adventure">
+          <h3>Action Quest</h3>
+          <p>Fast-paced action adventure where every level pushes your skills.</p>
+          <div class="small">Genre: Action / Adventure</div>
+          <div class="badge">Top Pick</div>
+        </article>
+        <article class="card" data-tags="sports multiplayer">
+          <h3>Sports Arena</h3>
+          <p>Team up or face rivals in a dynamic sports showdown.</p>
+          <div class="small">Genre: Sports / Multiplayer</div>
+          <div class="badge">Multiplayer</div>
+        </article>
+        <article class="card" data-tags="puzzle casual">
+          <h3>Puzzle Master</h3>
+          <p>Brainy puzzles designed to challenge and reward your strategy.</p>
+          <div class="small">Genre: Puzzle / Casual</div>
+          <div class="badge">Brain Game</div>
+        </article>
+        <article class="card" data-tags="shooter scifi">
+          <h3>Space Shooter</h3>
+          <p>Command your ship through waves of enemy fighters and bosses.</p>
+          <div class="small">Genre: Shooter / Sci-Fi</div>
+          <div class="badge">Sci-Fi</div>
+        </article>
+        <article class="card" data-tags="racing simulation">
+          <h3>Speed Race</h3>
+          <p>High-octane racing action on neon tracks with epic close finishes.</p>
+          <div class="small">Genre: Racing / Simulation</div>
+          <div class="badge">Racing</div>
+        </article>
+        <article class="card" data-tags="rpg fantasy">
+          <h3>Fantasy RPG</h3>
+          <p>Build your hero, explore mystical lands, and conquer legendary foes.</p>
+          <div class="small">Genre: RPG / Fantasy</div>
+          <div class="badge">Roleplay</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="wrap">
+      <h2 style="text-align:center; color:#fff; margin-bottom:18px;">Why GameHub?</h2>
+      <div class="features-grid">
+        <div class="feature-card"><h3>Curated Selection</h3><p>Only the best titles from action, strategy, racing, RPG, and casual genres.</p></div>
+        <div class="feature-card"><h3>Live Updates</h3><p>New releases, community news, and events appear here first.</p></div>
+        <div class="feature-card"><h3>Easy Access</h3><p>Quick navigation, search filters, and responsive layout for any device.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="news">
+    <div class="wrap">
+      <h2 style="text-align:center; color:#fff; margin-bottom:18px;">Latest News</h2>
       <div class="grid">
-        <article class="card"><h3>Action Quest</h3><p>Fast-paced action adventure where every level pushes your skills.</p><div class="small">Genre: Action / Adventure</div></article>
-        <article class="card"><h3>Sports Arena</h3><p>Team up or face rivals in a dynamic sports showdown.</p><div class="small">Genre: Sports / Multiplayer</div></article>
-        <article class="card"><h3>Puzzle Master</h3><p>Brainy puzzles designed to challenge and reward your strategy.</p><div class="small">Genre: Puzzle / Casual</div></article>
-        <article class="card"><h3>Space Shooter</h3><p>Command your ship through waves of enemy fighters and bosses.</p><div class="small">Genre: Shooter / Sci-Fi</div></article>
-        <article class="card"><h3>Speed Race</h3><p>High-octane racing action on neon tracks with epic close finishes.</p><div class="small">Genre: Racing / Simulation</div></article>
-        <article class="card"><h3>Fantasy RPG</h3><p>Build your hero, explore mystical lands, and conquer legendary foes.</p><div class="small">Genre: RPG / Fantasy</div></article>
+        <div class="news-item"><h4>New Tournament Launch</h4><p>Join our weekly event and compete for rewards across multiple games.</p></div>
+        <div class="news-item"><h4>Season Pass Released</h4><p>Unlock skins, bonuses, and early access to upcoming features.</p></div>
+        <div class="news-item"><h4>Community Spotlight</h4><p>Meet top creators and streamers powering the GameHub community.</p></div>
       </div>
     </div>
   </section>
@@ -67,7 +142,7 @@
   <section class="about" id="about">
     <div class="wrap">
       <h2 style="text-align:center; color:#fff; margin-bottom:18px;">About GameHub</h2>
-      <p style="max-width:720px; margin:0 auto 30px; color:#cfd8dc; text-align:center;">GameHub is a clean, modern showcase for gaming fans. Browse featured titles, learn what makes each game unique, and keep your site visitors engaged with a straightforward gaming layout.</p>
+      <p style="max-width:720px; margin:0 auto 30px; color:#cfd8dc; text-align:center;">GameHub is a gaming showcase designed for players who want a clean experience, fast discovery, and the latest releases all in one place.</p>
       <div class="stats">
         <div class="stat"><strong>500+</strong>Games Available</div>
         <div class="stat"><strong>2M+</strong>Players Active</div>
@@ -80,11 +155,11 @@
   <section class="contact" id="contact">
     <div class="wrap">
       <h2 style="text-align:center; color:#fff; margin-bottom:18px;">Contact Us</h2>
-      <form onsubmit="event.preventDefault(); alert('Thanks! We received your message.'); this.reset();" style="max-width:520px; margin:0 auto; display:grid; gap:14px;">
-        <input type="text" placeholder="Your Name" required>
-        <input type="email" placeholder="Your Email" required>
-        <textarea rows="5" placeholder="Your Message" required></textarea>
-        <button class="btn">Send Message</button>
+      <form id="contactForm" style="max-width:520px; margin:0 auto; display:grid; gap:14px;">
+        <input type="text" id="nameField" placeholder="Your Name" required>
+        <input type="email" id="emailField" placeholder="Your Email" required>
+        <textarea id="messageField" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit" class="btn">Send Message</button>
       </form>
     </div>
   </section>
@@ -92,5 +167,34 @@
   <footer>
     <div class="wrap" style="text-align:center; padding:24px 0; color:#8a8d93;">&copy; 2024 GameHub · Gaming website example · No extra files needed</div>
   </footer>
+
+  <button class="top-button" id="topButton" onclick="scrollToTop()">Top</button>
+
+  <script>
+    function filterGames() {
+      const query = document.getElementById('gameSearch').value.toLowerCase();
+      document.querySelectorAll('#gameGrid .card').forEach(card => {
+        const tags = card.dataset.tags;
+        const match = tags.includes(query) || card.querySelector('h3').textContent.toLowerCase().includes(query);
+        card.style.display = query && !match ? 'none' : 'block';
+      });
+    }
+
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const name = document.getElementById('nameField').value.trim();
+      alert('Thanks, ' + (name || 'Gamer') + '! Your message was sent.');
+      this.reset();
+    });
+
+    window.addEventListener('scroll', function() {
+      const button = document.getElementById('topButton');
+      button.style.display = window.scrollY > 300 ? 'block' : 'none';
+    });
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameHub</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:Arial,sans-serif; background:#111; color:#eee; }
+    header { background:#171717; padding:18px 20px; border-bottom:2px solid #00d4ff; }
+    .wrap { max-width:1080px; margin:0 auto; }
+    nav ul { list-style:none; display:flex; gap:18px; flex-wrap:wrap; }
+    nav a { color:#eee; text-decoration:none; font-weight:600; }
+    section { padding:60px 20px; }
+    .hero { text-align:center; background:linear-gradient(135deg,#0f2027,#203a43,#2c5364); padding:80px 20px; }
+    .hero h1 { font-size:3rem; margin-bottom:18px; }
+    .hero p { max-width:720px; margin:0 auto 24px; color:#cfd8dc; }
+    .btn { display:inline-block; padding:12px 28px; background:#ff006e; color:#fff; border-radius:6px; text-decoration:none; }
+    .grid { display:grid; gap:22px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+    .card { background:#181818; border:1px solid #2a2a2a; border-radius:14px; padding:22px; }
+    .card h3 { color:#00d4ff; margin-bottom:10px; }
+    .card p { color:#b0bec5; margin-bottom:12px; font-size:.95rem; }
+    .small { color:#66fcf1; font-size:.92rem; }
+    .about, .contact { background:#121212; border-top:1px solid #222; }
+    .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-top:24px; }
+    .stat { background:#0e0e0e; padding:18px; border-radius:12px; }
+    .stat strong { display:block; font-size:1.7rem; color:#00d4ff; }
+    form { display:grid; gap:14px; max-width:520px; margin:0 auto; }
+    input, textarea { width:100%; padding:14px; border:1px solid #2a2a2a; border-radius:10px; background:#141414; color:#eee; }
+    input:focus, textarea:focus { outline:2px solid #00d4ff; }
+    footer { text-align:center; padding:22px 20px; border-top:2px solid #222; color:#8a8d93; }
+    @media (max-width:640px) { .hero h1 { font-size:2.2rem; } nav ul { justify-content:center; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;">
+        <div><strong style="font-size:1.2rem; color:#00d4ff;">GameHub</strong></div>
+        <nav><ul><li><a href="#home">Home</a></li><li><a href="#games">Games</a></li><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li></ul></nav>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="wrap">
+      <h1>Welcome to GameHub</h1>
+      <p>Your one-stop gaming showcase for exciting action, racing, RPG, and casual adventures. Jump in, explore great titles, and stay updated with the latest game picks.</p>
+      <a class="btn" href="#games">Explore Games</a>
+    </div>
+  </section>
+
+  <section id="games">
+    <div class="wrap">
+      <h2 style="margin-bottom:24px; color:#fff; text-align:center;">Featured Games</h2>
+      <div class="grid">
+        <article class="card"><h3>Action Quest</h3><p>Fast-paced action adventure where every level pushes your skills.</p><div class="small">Genre: Action / Adventure</div></article>
+        <article class="card"><h3>Sports Arena</h3><p>Team up or face rivals in a dynamic sports showdown.</p><div class="small">Genre: Sports / Multiplayer</div></article>
+        <article class="card"><h3>Puzzle Master</h3><p>Brainy puzzles designed to challenge and reward your strategy.</p><div class="small">Genre: Puzzle / Casual</div></article>
+        <article class="card"><h3>Space Shooter</h3><p>Command your ship through waves of enemy fighters and bosses.</p><div class="small">Genre: Shooter / Sci-Fi</div></article>
+        <article class="card"><h3>Speed Race</h3><p>High-octane racing action on neon tracks with epic close finishes.</p><div class="small">Genre: Racing / Simulation</div></article>
+        <article class="card"><h3>Fantasy RPG</h3><p>Build your hero, explore mystical lands, and conquer legendary foes.</p><div class="small">Genre: RPG / Fantasy</div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="wrap">
+      <h2 style="text-align:center; color:#fff; margin-bottom:18px;">About GameHub</h2>
+      <p style="max-width:720px; margin:0 auto 30px; color:#cfd8dc; text-align:center;">GameHub is a clean, modern showcase for gaming fans. Browse featured titles, learn what makes each game unique, and keep your site visitors engaged with a straightforward gaming layout.</p>
+      <div class="stats">
+        <div class="stat"><strong>500+</strong>Games Available</div>
+        <div class="stat"><strong>2M+</strong>Players Active</div>
+        <div class="stat"><strong>4.8★</strong>Avg. Rating</div>
+        <div class="stat"><strong>24/7</strong>Support</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <h2 style="text-align:center; color:#fff; margin-bottom:18px;">Contact Us</h2>
+      <form onsubmit="event.preventDefault(); alert('Thanks! We received your message.'); this.reset();" style="max-width:520px; margin:0 auto; display:grid; gap:14px;">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea rows="5" placeholder="Your Message" required></textarea>
+        <button class="btn">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap" style="text-align:center; padding:24px 0; color:#8a8d93;">&copy; 2024 GameHub · Gaming website example · No extra files needed</div>
+  </footer>
+</body>
+</html>

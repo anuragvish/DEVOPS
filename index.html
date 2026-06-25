@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PixelForge Games</title>
+  <meta name="description" content="A modern gaming landing page with featured titles, esports highlights, and community vibes." />
+  <style>
+    :root {
+      --bg: #060816;
+      --panel: rgba(12, 19, 39, 0.92);
+      --text: #f5f7ff;
+      --muted: #95a0c9;
+      --accent: #6c63ff;
+      --accent-2: #00e5ff;
+      --border: rgba(255,255,255,0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(0,229,255,0.14), transparent 25%),
+        linear-gradient(135deg, #060816 0%, #11182d 50%, #060816 100%);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(16px);
+      background: rgba(6, 8, 22, 0.75);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .logo span { color: var(--accent-2); }
+
+    .nav-links {
+      display: flex;
+      gap: 1.1rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+      border: 1px solid transparent;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+      color: #fff;
+      box-shadow: 0 12px 25px rgba(0,229,255,0.2);
+    }
+
+    .btn-secondary {
+      border-color: var(--border);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .hero {
+      padding: 4.5rem 0 3rem;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 0.5rem;
+      align-items: center;
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0,229,255,0.3);
+      background: rgba(0,229,255,0.08);
+      color: var(--accent-2);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 4vw, 3.7rem);
+      line-height: 1.05;
+      margin: 0 0 1rem;
+    }
+
+    .hero p { color: var(--muted); font-size: 1.02rem; max-width: 620px; }
+
+    .hero-actions { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+
+    .hero-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 1.2rem;
+      padding: 1.25rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.28);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
+      pointer-events: none;
+    }
+
+    .hero-card img {
+      height: 280px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 0.9rem;
+    }
+
+    .stats { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .stat {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 0.9rem;
+      padding: 0.8rem 1rem;
+      min-width: 110px;
+    }
+    .stat strong { display: block; font-size: 1.1rem; }
+    .stat span { color: var(--muted); font-size: 0.9rem; }
+
+    section { padding: 2rem 0 3rem; }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+    }
+    .section-title h2 { margin: 0; font-size: 1.35rem; }
+    .section-title a { color: var(--accent-2); font-weight: 600; }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .game-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.22);
+    }
+
+    .game-card img {
+      height: 180px;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .game-card .content { padding: 1rem; }
+    .game-card h3 { margin: 0 0 0.35rem; }
+    .game-card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    .tag-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.8rem; }
+    .tag {
+      padding: 0.3rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(108,99,255,0.16);
+      color: #d4d2ff;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.2rem;
+    }
+
+    .panel ul { padding-left: 1.1rem; color: var(--muted); }
+    .panel li { margin-bottom: 0.45rem; }
+
+    .newsletter {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      background: linear-gradient(90deg, rgba(108,99,255,0.2), rgba(0,229,255,0.16));
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .newsletter form {
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+    }
+
+    .newsletter input {
+      padding: 0.8rem 1rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(6,8,22,0.7);
+      color: var(--text);
+      min-width: 240px;
+    }
+
+    footer {
+      padding: 1.2rem 0 2.2rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    @media (max-width: 860px) {
+      .hero, .about { grid-template-columns: 1fr; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero { padding-top: 2.5rem; }
+      .newsletter { align-items: stretch; }
+      .newsletter form { width: 100%; }
+      .newsletter input { min-width: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a href="#" class="logo">Pixel<span>Forge</span></a>
+      <nav class="nav-links">
+        <a href="#games">Games</a>
+        <a href="#about">About</a>
+        <a href="#community">Community</a>
+      </nav>
+      <a href="#community" class="btn btn-primary">Join Now</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="container hero">
+      <div>
+        <div class="eyebrow">⚡ New season live</div>
+        <h1>Power up your next adventure.</h1>
+        <p>Discover blockbuster titles, epic tournaments, and a community built for players who love speed, style, and the thrill of the next challenge.</p>
+        <div class="hero-actions">
+          <a href="#games" class="btn btn-primary">Explore Games</a>
+          <a href="#about" class="btn btn-secondary">Why Us</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><strong>120K+</strong><span>Active players</span></div>
+          <div class="stat"><strong>24/7</strong><span>Live events</span></div>
+          <div class="stat"><strong>4.9★</strong><span>Community rating</span></div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80" alt="Gaming setup with neon lights" />
+      </div>
+    </section>
+
+    <section id="games" class="container">
+      <div class="section-title">
+        <h2>Featured Games</h2>
+        <a href="#">View all</a>
+      </div>
+      <div class="card-grid">
+        <article class="game-card">
+          <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80" alt="Cyber arena game" />
+          <div class="content">
+            <h3>Nova Drift</h3>
+            <p>Fast-paced action where every second is a duel against the void.</p>
+            <div class="tag-row">
+              <span class="tag">Action</span>
+              <span class="tag">Co-op</span>
+            </div>
+          </div>
+        </article>
+        <article class="game-card">
+          <img src="https://images.unsplash.com/photo-1511882150382-421056c89033?auto=format&fit=crop&w=900&q=80" alt="Battle royale gameplay" />
+          <div class="content">
+            <h3>Shadow Circuit</h3>
+            <p>Compete in high-stakes battle royale arenas with futuristic weapons.</p>
+            <div class="tag-row">
+              <span class="tag">Battle Royale</span>
+              <span class="tag">Multiplayer</span>
+            </div>
+          </div>
+        </article>
+        <article class="game-card">
+          <img src="https://images.unsplash.com/photo-1517404215738-15263e9f9178?auto=format&fit=crop&w=900&q=80" alt="RPG adventure game" />
+          <div class="content">
+            <h3>Mythic Quest</h3>
+            <p>Embark on a story-rich RPG packed with legendary loot and allies.</p>
+            <div class="tag-row">
+              <span class="tag">RPG</span>
+              <span class="tag">Story</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="container about">
+      <div class="panel">
+        <h2>Why players choose PixelForge</h2>
+        <p>We blend exclusive launches, live esports events, and a welcoming community to create the ultimate gaming hub.</p>
+        <ul>
+          <li>Daily drops, tournaments, and challenges</li>
+          <li>Curated recommendations for every genre</li>
+          <li>Discord-powered events and rewards</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h2>What’s next</h2>
+        <p>From indie gems to blockbuster releases, the next big moment is always around the corner. Stay ahead of the curve and never miss a launch.</p>
+      </div>
+    </section>
+
+    <section id="community" class="container">
+      <div class="newsletter">
+        <div>
+          <h2>Join the squad</h2>
+          <p>Get updates on new releases, patch notes, and event invites.</p>
+        </div>
+        <form>
+          <input type="email" placeholder="Enter your email" />
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="year"></span> PixelForge Games. All rights reserved.</div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
